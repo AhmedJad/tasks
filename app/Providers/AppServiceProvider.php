@@ -2,10 +2,16 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+
+    // protected $policies = [
+    //     User::class => UserPolicy::class,
+    // ];
+
     /**
      * Register any application services.
      *
@@ -13,7 +19,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
     }
 
     /**
@@ -23,6 +28,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        DB::listen(function ($query) {
+            // var_dump($query->sql);
+            // $query->bindings;
+            // $query->time;
+        });
     }
 }

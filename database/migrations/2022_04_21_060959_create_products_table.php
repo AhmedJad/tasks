@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text("description")->nullable();
             $table->decimal("price")->nullable();
             $table->foreignId('category_id')->constrained();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,11 +24,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::controller(CategoryProductController::class)->prefix("categories")->group(function () {
     Route::post("{categoryId}/products", "createProduct");
+    Route::post("create-products-from-excel", "createProductsFromExcel");
     Route::get("empty", "getEmptyCategories");
     Route::get("less-than-hundren", "getLessThanHundredCategories");
     Route::get("more-than-hundren", "getMoreThanHundredCategories");
     Route::get("with-products", "getCategoriesWithProducts");
-    Route::get("active-with-active-products", "getActiveCategoriesWithActiveProducts");
+    Route::get("active-with-active-product  s", "getActiveCategoriesWithActiveProducts");
     Route::prefix("products")->group(function () {
         Route::post("update", "updateProduct");
         Route::get("active", "getActiveProducts");
@@ -51,3 +54,21 @@ Route::controller(CategoryController::class)->prefix("categories")->group(functi
     Route::put("{id}/deactivate", "deactivate");
 });
 
+Route::controller(AuthController::class)->prefix("auth")->group(function () {
+    Route::post("login", "login");
+    Route::post("logout", "logout");
+    Route::get('forget-password/{user:email}', "forgetPassword");
+    Route::put('reset-password', "resetPassword");
+});
+
+Route::controller(UserController::class)->prefix("users")->group(function () {
+    Route::post("", "createUser");
+    Route::post("update", "updateUser");
+    Route::post("edit-profile", "editProfile");
+    Route::get("{user}", "getUser");
+    Route::delete("{user}", "deleteUser");
+    Route::put("{id}/activate", "activateUser");
+    Route::put("{id}/deactivate", "deactivateUser");
+    Route::post("add-to-cart", "addToCart");
+    Route::delete("{shoppingCart}/remove-from-cart", "deleteProductFromCart");
+});
